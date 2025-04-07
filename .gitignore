@@ -1,0 +1,56 @@
+# Go项目通用忽略文件
+
+# 编译生成的二进制文件
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+jg-cursor-cracker
+
+# 测试二进制文件
+*.test
+
+# Go覆盖工具产生的文件
+*.out
+*.prof
+coverage.txt
+coverage.html
+
+# 依赖目录
+/vendor/
+
+# Go工作区文件
+go.work
+
+# IDE和编辑器文件
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 临时文件和目录
+/tmp/
+/temp/
+*.tmp
+*.bak
+
+# 项目特定忽略
+/dist/
+/build/
+/debug/
+
+# macOS特定文件
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 项目测试数据
+/test_data/
+
+# 本地配置文件
+.env
+*.local
+config.local.json 
