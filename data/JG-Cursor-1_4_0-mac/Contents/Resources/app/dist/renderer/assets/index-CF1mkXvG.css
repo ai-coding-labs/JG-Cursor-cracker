@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #f5f5f5
+}
+
+#root {
+    height: 100vh;
+    display: flex
+}
+
+.main-card {
+    flex: 1;
+    margin: 0;
+    border: none;
+    border-radius: 0
+}
+
+.main-card .button-container {
+    display: flex;
+    gap: 10px
+}
+
+.main-card .ant-btn-link {
+    color: #1890ff;
+    font-weight: 700;
+    text-decoration: underline
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 8px
+}
+
+.member-info-empty {
+    padding: 24px;
+    background: #fafafa;
+    border: 1px solid #f0f0f0;
+    border-radius: 2px
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1f1f1f
+    }
+}
+
+.ant-message-notice-content {
+    max-width: 80vw !important;
+    word-break: break-word !important;
+    white-space: pre-wrap !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth !important
+}
+
+.main-card .logo-container {
+    display: flex;
+    justify-content: center;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 10px;
+    border: 1px solid #ddd
+}
+
+.main-card .app-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform .3s ease
+}
+
+.main-card .app-logo:hover {
+    transform: scale(1.05)
+}
+
+.notification-modal .ant-modal-body {
+    max-height: 60vh;
+    overflow-y: auto
+}
+
+.notification-modal .ant-modal-footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 16px 24px
+}
+
+.ant-notification-notice {
+    max-width: 400px;
+    word-break: break-word
+}
+
+.ant-notification-notice-message {
+    font-weight: 500;
+    margin-bottom: 8px
+}
+
+.ant-notification-notice-description {
+    max-height: 300px;
+    overflow-y: auto
+}
+
+.quota-refresh-btn {
+    color: #1890ff !important
+}
+
+.quota-refresh-btn:hover {
+    color: #40a9ff !important
+}
