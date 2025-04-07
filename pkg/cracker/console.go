@@ -30,6 +30,7 @@ const (
 type Console struct {
 	showTimestamp bool
 	rainbowMode   bool
+	verbose       bool
 }
 
 // NewConsole 创建一个新的控制台实例
@@ -37,6 +38,7 @@ func NewConsole() *Console {
 	return &Console{
 		showTimestamp: true,
 		rainbowMode:   false,
+		verbose:       false,
 	}
 }
 
@@ -48,6 +50,11 @@ func (c *Console) EnableTimestamp(enable bool) {
 // EnableRainbowMode 启用/禁用彩虹模式
 func (c *Console) EnableRainbowMode(enable bool) {
 	c.rainbowMode = enable
+}
+
+// SetVerbose 设置详细输出模式
+func (c *Console) SetVerbose(verbose bool) {
+	c.verbose = verbose
 }
 
 // Info 打印信息
@@ -72,12 +79,20 @@ func (c *Console) Error(format string, args ...interface{}) {
 
 // Debug 打印调试信息
 func (c *Console) Debug(format string, args ...interface{}) {
-	c.print(Magenta, "DEBUG", format, args...)
+	if c.verbose {
+		c.print(Magenta, "DEBUG", format, args...)
+	}
 }
 
 // Highlight 高亮打印
 func (c *Console) Highlight(format string, args ...interface{}) {
 	c.print(Bold+Cyan, ">>>", format, args...)
+}
+
+// CustomPrompt 打印自定义提示并等待用户输入
+func (c *Console) CustomPrompt(format string, args ...interface{}) {
+	message := fmt.Sprintf(format, args...)
+	fmt.Printf("%s%s%s%s", Bold, Yellow, message, Reset)
 }
 
 // 彩虹文字

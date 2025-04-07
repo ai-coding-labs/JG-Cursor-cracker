@@ -113,10 +113,10 @@ func (f *Fooling) modifyMainJs(filePath string) error {
 	modifiedContent := originalContent
 
 	// 替换设备ID设置
-	deviceIdSetPattern := regexp.MustCompile(`M\.set\("deviceId",(.+?)\)`)
+	deviceIdSetPattern := regexp.MustCompile(`M\.set\("deviceId",[^)]+\)`)
 	matches := deviceIdSetPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 1 {
-		f.console.Debug("找到deviceId设置模式，原值为: %s", matches[1])
+	if len(matches) > 0 {
+		f.console.Debug("找到deviceId设置模式，原值为: %s", matches[0])
 		modifiedContent = deviceIdSetPattern.ReplaceAllString(modifiedContent,
 			fmt.Sprintf(`M.set("deviceId","%s")`, f.deviceId))
 	} else {
@@ -124,14 +124,47 @@ func (f *Fooling) modifyMainJs(filePath string) error {
 	}
 
 	// 替换设备ID获取
-	deviceIdGetPattern := regexp.MustCompile(`\(e = M\.get\("deviceId"\)\) return \[2, (.+?)\];`)
+	deviceIdGetPattern := regexp.MustCompile(`e=M\.get\("deviceId"\)\)return\[2,[^]]+\]`)
 	matches = deviceIdGetPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 1 {
-		f.console.Debug("找到deviceId获取模式，原值为: %s", matches[1])
+	if len(matches) > 0 {
+		f.console.Debug("找到deviceId获取模式，原值为: %s", matches[0])
 		modifiedContent = deviceIdGetPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`(e = M.get("deviceId")) return [2, "%s"];`, f.deviceId))
+			fmt.Sprintf(`e=M.get("deviceId"))return[2,"%s"]`, f.deviceId))
 	} else {
 		f.console.Warning("未找到deviceId获取模式")
+	}
+
+	// 替换初始deviceId返回
+	initialDeviceIdPattern := regexp.MustCompile(`if\s*\(e=M\.get\("deviceId"\)\)return\s*\[2,\s*[^]]+\]`)
+	matches = initialDeviceIdPattern.FindStringSubmatch(originalContent)
+	if len(matches) > 0 {
+		f.console.Debug("找到初始deviceId返回模式，原值为: %s", matches[0])
+		modifiedContent = initialDeviceIdPattern.ReplaceAllString(modifiedContent,
+			fmt.Sprintf(`if(e=M.get("deviceId"))return[2,"%s"]`, f.deviceId))
+	} else {
+		f.console.Warning("未找到初始deviceId返回模式")
+	}
+
+	// 替换MAC地址生成的deviceId
+	macPattern := regexp.MustCompile(`M\.set\("deviceId",[^)]+\),\[2,[^]]+\]`)
+	matches = macPattern.FindStringSubmatch(originalContent)
+	if len(matches) > 0 {
+		f.console.Debug("找到MAC地址生成deviceId模式，原值为: %s", matches[0])
+		modifiedContent = macPattern.ReplaceAllString(modifiedContent,
+			fmt.Sprintf(`M.set("deviceId","%s"),[2,"%s"]`, f.deviceId, f.deviceId))
+	} else {
+		f.console.Warning("未找到MAC地址生成deviceId模式")
+	}
+
+	// 替换UUID生成的deviceId
+	uuidPattern := regexp.MustCompile(`i=\(0,E\.v4\(\)\)\.slice\(0,16\),M\.set\("deviceId",[^)]+\),\[2,[^]]+\]`)
+	matches = uuidPattern.FindStringSubmatch(originalContent)
+	if len(matches) > 0 {
+		f.console.Debug("找到UUID生成deviceId模式，原值为: %s", matches[0])
+		modifiedContent = uuidPattern.ReplaceAllString(modifiedContent,
+			fmt.Sprintf(`i="%s",M.set("deviceId","%s"),[2,"%s"]`, f.deviceId, f.deviceId, f.deviceId))
+	} else {
+		f.console.Warning("未找到UUID生成deviceId模式")
 	}
 
 	// 检查是否有修改

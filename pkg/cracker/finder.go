@@ -33,12 +33,14 @@ func (f *Finder) Find() ([]string, error) {
 		"/Applications/JG-Cursor.app",
 		filepath.Join(homeDir, "Applications", "JG-Cursor.app"),
 		filepath.Join(homeDir, "Downloads", "JG-Cursor.app"),
+		filepath.Join(homeDir, "Downloads", "JG-Cursor-1.4.0-mac.app"),
 	}
 
 	// Homebrew可能安装路径模式
 	globPatterns := []string{
 		"/opt/homebrew/Cellar/jg-cursor/*/JG-Cursor.app",
 		"/usr/local/Cellar/jg-cursor/*/JG-Cursor.app",
+		filepath.Join(homeDir, "Downloads", "JG-Cursor-*.app"),
 	}
 
 	var globPaths []string
@@ -49,8 +51,26 @@ func (f *Finder) Find() ([]string, error) {
 		}
 	}
 
-	// 合并所有候选路径
-	candidates := append(fixedPaths, globPaths...)
+	// 合并所有候选路径并去重
+	pathMap := make(map[string]bool)
+	var candidates []string
+
+	// 添加固定路径
+	for _, path := range fixedPaths {
+		if !pathMap[path] {
+			pathMap[path] = true
+			candidates = append(candidates, path)
+		}
+	}
+
+	// 添加glob匹配的路径
+	for _, path := range globPaths {
+		if !pathMap[path] {
+			pathMap[path] = true
+			candidates = append(candidates, path)
+		}
+	}
+
 	f.console.Debug("搜索路径: %v", candidates)
 
 	var results []string

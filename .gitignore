@@ -18,6 +18,7 @@ coverage.txt
 coverage.html
 
 # 依赖目录
+/node_modules/
 /vendor/
 
 # Go工作区文件
@@ -30,6 +31,7 @@ go.work
 *.swo
 *~
 .DS_Store
+Thumbs.db
 
 # 临时文件和目录
 /tmp/
@@ -56,6 +58,7 @@ go.work
 config.local.json
 
 # 数据目录和大文件
-/data/
-/data/*
-/data/JG-Cursor-1_4_0-mac/ 
+/data/JG-Cursor-1_4_0-mac/Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework
+
+node_modules/
+data/*/node_modules/
