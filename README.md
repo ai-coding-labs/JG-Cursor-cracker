@@ -4,9 +4,17 @@
 
 JG-Cursor-cracker 是一个用于破解和激活 JG-Cursor 应用的工具。
 
+
+
 ## 相关资源
 
 - [JG-Cursor 引导文档](https://bwcxynefwek.feishu.cn/docx/XgtZdePyEoarjXxp9eLciNZFnkd) - 包含下载 JG-Cursor 各个平台客户端等信息的引导文档
+
+## 使用演示
+
+下面是工具运行时的截图示例：
+
+![JG-Cursor-cracker 运行截图](img/demo.png)
 
 ## 功能
 
