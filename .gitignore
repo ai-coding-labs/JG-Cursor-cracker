@@ -53,4 +53,9 @@ go.work
 # 本地配置文件
 .env
 *.local
-config.local.json 
+config.local.json
+
+# 数据目录和大文件
+/data/
+/data/*
+/data/JG-Cursor-1_4_0-mac/ 
