@@ -1,6 +1,6 @@
 # JG-Cursor-cracker
 
-[![Go Tests](https://github.com/JSREP/JG-Cursor-cracker/actions/workflows/go-test.yml/badge.svg)](https://github.com/JSREP/JG-Cursor-cracker/actions/workflows/go-test.yml)
+[![Go Tests](https://github.com/cursor-home/JG-Cursor-cracker/actions/workflows/go-test.yml/badge.svg)](https://github.com/cursor-home/JG-Cursor-cracker/actions/workflows/go-test.yml)
 
 JG-Cursor-cracker 是一个用于破解和激活 JG-Cursor 应用的工具。
 
@@ -35,7 +35,7 @@ JG-Cursor-cracker 是一个用于破解和激活 JG-Cursor 应用的工具。
 
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/JSREP/JG-Cursor-cracker.git
+   git clone https://github.com/cursor-home/JG-Cursor-cracker.git
    cd JG-Cursor-cracker
    ```
 
@@ -56,7 +56,7 @@ JG-Cursor-cracker 是一个用于破解和激活 JG-Cursor 应用的工具。
 
 ### 直接下载编译好的二进制文件
 
-访问 [Releases](https://github.com/JSREP/JG-Cursor-cracker/releases) 页面下载对应系统的二进制文件。
+访问 [Releases](https://github.com/cursor-home/JG-Cursor-cracker/releases) 页面下载对应系统的二进制文件。
 
 对于 MacOS 用户，下载后可能需要添加执行权限：
 ```bash
@@ -131,7 +131,7 @@ chmod +x jg-cursor-cracker
 
 1. **下载并编译工具**：
    ```bash
-   git clone https://github.com/JSREP/JG-Cursor-cracker.git
+   git clone https://github.com/cursor-home/JG-Cursor-cracker.git
    cd JG-Cursor-cracker
    go build -o jg-cursor-cracker
    ```

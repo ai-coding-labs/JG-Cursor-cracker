@@ -1,4 +1,4 @@
-module github.com/JSREP/JG-Cursor-cracker
+module github.com/cursor-home/JG-Cursor-cracker
 
 go 1.18
 

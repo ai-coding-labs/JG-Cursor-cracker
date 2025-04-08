@@ -1,6 +1,6 @@
 package main
 
-import "github.com/JSREP/JG-Cursor-cracker/cmd"
+import "github.com/cursor-home/JG-Cursor-cracker/cmd"
 
 func main() {
 	cmd.Execute()

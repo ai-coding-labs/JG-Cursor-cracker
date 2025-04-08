@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/JSREP/JG-Cursor-cracker/cmd/utils"
-	"github.com/JSREP/JG-Cursor-cracker/pkg/cracker"
+	"github.com/cursor-home/JG-Cursor-cracker/cmd/utils"
+	"github.com/cursor-home/JG-Cursor-cracker/pkg/cracker"
 	"github.com/spf13/cobra"
 )
 

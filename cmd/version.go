@@ -3,16 +3,16 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/JSREP/JG-Cursor-cracker/cmd/utils"
+	"github.com/cursor-home/JG-Cursor-cracker/cmd/utils"
 	"github.com/spf13/cobra"
 )
 
 var (
 	// 版本信息
-	version   = "1.0.0"
+	version   = "dev"
 	commit    = "unknown"
 	buildDate = "unknown"
-	repoURL   = "https://github.com/JSREP/JG-Cursor-cracker"
+	repoURL   = "https://github.com/cursor-home/JG-Cursor-cracker"
 )
 
 // versionCmd represents the version command

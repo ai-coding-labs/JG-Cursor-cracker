@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/JSREP/JG-Cursor-cracker/cmd/utils"
+	"github.com/cursor-home/JG-Cursor-cracker/cmd/utils"
 	"github.com/spf13/cobra"
 )
 
