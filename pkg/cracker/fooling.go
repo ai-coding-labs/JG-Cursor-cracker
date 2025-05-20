@@ -64,12 +64,12 @@ func (f *Fooling) Fool(jgCursorHomeDirectory string) error {
 		return fmt.Errorf("解包asar文件失败: %v", err)
 	}
 
-	// 修改main.js文件
-	mainJsPath := filepath.Join(tempDir, "dist", "main", "main.js")
-	f.console.Info("正在修改main.js文件...")
-	if err := f.modifyMainJs(mainJsPath); err != nil {
-		f.console.Error("修改main.js文件失败: %v", err)
-		return fmt.Errorf("修改main.js文件失败: %v", err)
+	// 修改preload.js文件
+	preloadJsPath := filepath.Join(tempDir, "dist", "preload", "preload.js")
+	f.console.Info("正在修改preload.js文件...")
+	if err := f.modifyPreloadJs(preloadJsPath); err != nil {
+		f.console.Error("修改preload.js文件失败: %v", err)
+		return fmt.Errorf("修改preload.js文件失败: %v", err)
 	}
 
 	// 备份原始asar文件
@@ -102,8 +102,8 @@ func (f *Fooling) Fool(jgCursorHomeDirectory string) error {
 	return nil
 }
 
-// 修改main.js文件
-func (f *Fooling) modifyMainJs(filePath string) error {
+// 修改preload.js文件
+func (f *Fooling) modifyPreloadJs(filePath string) error {
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return err
@@ -112,69 +112,56 @@ func (f *Fooling) modifyMainJs(filePath string) error {
 	originalContent := string(content)
 	modifiedContent := originalContent
 
-	// 替换设备ID设置
-	deviceIdSetPattern := regexp.MustCompile(`M\.set\("deviceId",[^)]+\)`)
-	matches := deviceIdSetPattern.FindStringSubmatch(originalContent)
+	// 使用更精确的正则表达式匹配getDeviceId函数
+	// 匹配形式: getDeviceId:function(){return e.ipcRenderer.invoke("get-device-id")}
+	getDeviceIdPattern := regexp.MustCompile(`getDeviceId:function\(\)\{[^}]*\}`)
+	matches := getDeviceIdPattern.FindStringSubmatch(originalContent)
 	if len(matches) > 0 {
-		f.console.Debug("找到deviceId设置模式，原值为: %s", matches[0])
-		modifiedContent = deviceIdSetPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`M.set("deviceId","%s")`, f.deviceId))
-	} else {
-		f.console.Warning("未找到deviceId设置模式")
-	}
+		f.console.Debug("找到getDeviceId方法，原值为: %s", matches[0])
 
-	// 替换设备ID获取
-	deviceIdGetPattern := regexp.MustCompile(`e=M\.get\("deviceId"\)\)return\[2,[^]]+\]`)
-	matches = deviceIdGetPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 0 {
-		f.console.Debug("找到deviceId获取模式，原值为: %s", matches[0])
-		modifiedContent = deviceIdGetPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`e=M.get("deviceId"))return[2,"%s"]`, f.deviceId))
+		// 用新的getDeviceId方法替换原来的方法，直接返回自定义设备ID
+		newGetDeviceId := fmt.Sprintf(`getDeviceId:function(){return"%s"}`, f.deviceId)
+		modifiedContent = getDeviceIdPattern.ReplaceAllString(modifiedContent, newGetDeviceId)
+		f.console.Success("getDeviceId方法已替换")
 	} else {
-		f.console.Warning("未找到deviceId获取模式")
-	}
+		// 如果没有找到，尝试使用更宽松的匹配模式
+		loosePattern := regexp.MustCompile(`getDeviceId:[^,}]+`)
+		matches = loosePattern.FindStringSubmatch(originalContent)
+		if len(matches) > 0 {
+			f.console.Debug("使用宽松模式找到getDeviceId方法，原值为: %s", matches[0])
 
-	// 替换初始deviceId返回
-	initialDeviceIdPattern := regexp.MustCompile(`if\s*\(e=M\.get\("deviceId"\)\)return\s*\[2,\s*[^]]+\]`)
-	matches = initialDeviceIdPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 0 {
-		f.console.Debug("找到初始deviceId返回模式，原值为: %s", matches[0])
-		modifiedContent = initialDeviceIdPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`if(e=M.get("deviceId"))return[2,"%s"]`, f.deviceId))
-	} else {
-		f.console.Warning("未找到初始deviceId返回模式")
-	}
+			// 用新的getDeviceId方法替换原来的方法
+			newGetDeviceId := fmt.Sprintf(`getDeviceId:function(){return"%s"}`, f.deviceId)
+			modifiedContent = loosePattern.ReplaceAllString(modifiedContent, newGetDeviceId)
+			f.console.Success("getDeviceId方法已替换（宽松模式）")
+		} else {
+			f.console.Warning("未找到getDeviceId方法，尝试添加新方法")
 
-	// 替换MAC地址生成的deviceId
-	macPattern := regexp.MustCompile(`M\.set\("deviceId",[^)]+\),\[2,[^]]+\]`)
-	matches = macPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 0 {
-		f.console.Debug("找到MAC地址生成deviceId模式，原值为: %s", matches[0])
-		modifiedContent = macPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`M.set("deviceId","%s"),[2,"%s"]`, f.deviceId, f.deviceId))
-	} else {
-		f.console.Warning("未找到MAC地址生成deviceId模式")
-	}
-
-	// 替换UUID生成的deviceId
-	uuidPattern := regexp.MustCompile(`i=\(0,E\.v4\(\)\)\.slice\(0,16\),M\.set\("deviceId",[^)]+\),\[2,[^]]+\]`)
-	matches = uuidPattern.FindStringSubmatch(originalContent)
-	if len(matches) > 0 {
-		f.console.Debug("找到UUID生成deviceId模式，原值为: %s", matches[0])
-		modifiedContent = uuidPattern.ReplaceAllString(modifiedContent,
-			fmt.Sprintf(`i="%s",M.set("deviceId","%s"),[2,"%s"]`, f.deviceId, f.deviceId, f.deviceId))
-	} else {
-		f.console.Warning("未找到UUID生成deviceId模式")
+			// 如果找不到getDeviceId方法，尝试在合适的位置添加
+			// 查找electronAPI对象的起始位置
+			apiPattern := regexp.MustCompile(`exposeInMainWorld\s*\(\s*["']electronAPI["']\s*,\s*\{`)
+			apiMatches := apiPattern.FindStringSubmatch(originalContent)
+			if len(apiMatches) > 0 {
+				// 在electronAPI对象的开始位置添加getDeviceId方法
+				newContent := apiPattern.ReplaceAllString(originalContent,
+					fmt.Sprintf(`exposeInMainWorld("electronAPI",{getDeviceId:function(){return"%s"},`, f.deviceId))
+				modifiedContent = newContent
+				f.console.Success("已添加getDeviceId方法到electronAPI对象")
+			} else {
+				f.console.Error("无法找到适合添加getDeviceId方法的位置")
+				return fmt.Errorf("无法找到适合添加getDeviceId方法的位置")
+			}
+		}
 	}
 
 	// 检查是否有修改
 	if modifiedContent == originalContent {
-		f.console.Warning("未对文件进行任何修改，可能模式已变化")
-	} else {
-		f.console.Success("文件修改成功")
+		f.console.Warning("未对文件进行任何修改，破解可能失败")
+		return fmt.Errorf("未对preload.js文件进行任何修改")
 	}
 
 	// 写回文件
+	f.console.Success("preload.js文件修改成功")
 	return ioutil.WriteFile(filePath, []byte(modifiedContent), 0644)
 }
 
