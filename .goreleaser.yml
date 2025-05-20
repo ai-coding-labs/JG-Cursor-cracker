@@ -3,8 +3,8 @@ project_name: jg-cursor-cracker
 
 before:
   hooks:
-    # 确保在项目根目录执行go mod tidy，忽略data目录中的go文件
-    - cd $(pwd) && go mod tidy
+    # 清理构建目录
+    - go mod tidy
 
 builds:
   - id: jg-cursor-cracker
