@@ -1,10 +1,6 @@
 # .goreleaser.yml
 project_name: jg-cursor-cracker
 
-# 添加git配置
-git:
-  dirty: true  # 允许在脏工作区运行
-
 before:
   hooks:
     # 确保在项目根目录执行go mod tidy，忽略data目录中的go文件
