@@ -30,6 +30,13 @@ jobs:
         with:
           go-version: '1.18'
 
+      - name: 预处理数据文件
+        run: |
+          # 确保任何.go文件都重命名为.go.txt
+          find data -name "*.go" -type f -exec sh -c 'mv "$1" "${1%.go}.go.txt"' _ {} \; || true
+          # 创建空的go.mod在数据目录中避免递归查找模块
+          touch data/go.mod
+
       - name: 运行测试
         run: go test -v ./pkg/cracker/...
 

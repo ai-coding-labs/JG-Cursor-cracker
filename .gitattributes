@@ -1,0 +1,4 @@
+# 将data目录标记为文档/数据文件，而非源代码
+data/**/*.go.txt linguist-documentation=true
+data/**/*.go.txt linguist-vendored=true
+data/**/* linguist-detectable=false 
