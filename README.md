@@ -105,6 +105,20 @@ chmod +x jg-cursor-cracker
 
 项目使用 GitHub Actions 进行持续集成，每次代码提交都会自动运行测试。
 
+## 发布版本
+
+本项目使用GoReleaser自动化发布流程，可以生成跨平台的二进制文件。发布新版本步骤：
+
+1. 创建并推送一个新的标签
+   ```bash
+   git tag -a v1.0.0 -m "第一个正式版本"
+   git push origin v1.0.0
+   ```
+
+2. GitHub Actions将自动构建并发布到GitHub Releases
+
+详细信息请参考[发布指南](docs/release.md)。
+
 ## 贡献代码
 
 欢迎提交 Pull Request 或 Issue。在提交代码前，请确保所有测试能够通过。 

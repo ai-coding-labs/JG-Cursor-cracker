@@ -62,3 +62,7 @@ config.local.json
 
 node_modules/
 data/*/node_modules/
+
+# GoReleaser相关文件
+/dist/
+.release-env
