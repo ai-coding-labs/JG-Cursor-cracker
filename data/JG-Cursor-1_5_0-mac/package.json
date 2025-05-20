@@ -1,0 +1,16 @@
+{
+  "name": "free-cursor",
+  "version": "1.5.7",
+  "description": "A helper tool for Cursor",
+  "author": "Dreamease",
+  "main": "dist/main/main.js",
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-store": "8.1.0",
+    "uuid": "^9.0.1"
+  },
+  "config": {
+    "electron_mirror": "https://npmmirror.com/mirrors/electron/",
+    "electron_custom_dir": "{{ version }}"
+  }
+}
