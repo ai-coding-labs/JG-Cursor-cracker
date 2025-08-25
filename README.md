@@ -210,7 +210,7 @@ total 32
 
 这一个文件就有15KB大，里面有一堆逻辑，现在科技水平好了，不用再茹毛饮血了，我直接借助Cursor对这个大文件里的逻辑格式化并且加注释，找到了跟生成设备码相关的函数：
 
-``js
+```js
 function P() {
     return (P = r(function () {
         var e, n, s, o, a, i;
