@@ -392,22 +392,4 @@ https://github.com/cursor-home/JG-Cursor-cracker
 
 ---
 
-## 🌟 感谢支持
-
-如果您觉得这个项目对您有帮助，欢迎给个 Star ⭐️ 支持一下！
-
-您的支持是我们继续开发和维护这个项目的动力。
-
-🙏 **非常感谢您的关注和支持！**
-
----
-
-### 💬 反馈与建议
-
-- 如果您遇到问题或有建议，欢迎提交 [Issues](https://github.com/cursor-home/JG-Cursor-cracker/issues)
-- 欢迎提交 [Pull Request](https://github.com/cursor-home/JG-Cursor-cracker/pulls) 来完善项目
-- 加入讨论群组分享使用经验
-
-### 📝 版本更新
-
-请关注 [Releases](https://github.com/cursor-home/JG-Cursor-cracker/releases) 页面获取最新版本信息和更新日志。
+> 看完了，觉得有意思的话请随手给个 Star ⭐️ 吧，非常感谢！
