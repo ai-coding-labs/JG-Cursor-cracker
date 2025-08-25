@@ -348,7 +348,7 @@ emm。。。？
 
 当然这些我们并没有真的使用，只是拿来收藏一下，期间因为我验证的时候频繁的涉及到Electron的解包和替换，所以为了解放双手自动化，我还专门写了个工具来辅助我替换机器码：
 
-```
+```text
 https://github.com/cursor-home/JG-Cursor-cracker
 ```
 
@@ -378,7 +378,7 @@ https://github.com/cursor-home/JG-Cursor-cracker
 
 就是它的资源限制大概是：
 
-```
+```text
 付费用户fast request > 白嫖用户 >= 付费用户slow request > 付费用户slow request到达某个阈值
 ```
 
